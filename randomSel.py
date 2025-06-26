@@ -1,6 +1,6 @@
 import random
 
-ogGifter = ['lisa', 'ann', 'mary']
+ogGifter = ['lisa', 'ann', 'mary'] # names of people involved in secret santa
 ogGiftee = ogGifter.copy()  # ['lisa', 'ann', 'mary']
 
 gifter = ogGifter.copy()
@@ -15,7 +15,6 @@ while(x < gifts):
     rcvr = (random.choice(giftee))
 
     if buy != rcvr:
-#        print(buy, "gets: ",  rcvr)
         gifter.remove(buy)
         giftee.remove(rcvr)
 
@@ -24,15 +23,10 @@ while(x < gifts):
     
     elif ( (buy == rcvr) and (gifts - x == 1)):
         x = 0
-#        print(gifter) same person as giftee
-#        print(giftee)
         gifter = ogGifter.copy()
         giftee = ogGiftee.copy()
 
-#        print("gifter: " , gifter)
- #       print("giftee: ", giftee)
         print("mistakes were made, we go again")
-##        break
 
-
-print(pairs)
+for gifter, giftee in pairs.items():
+    print(gifter, " buys for ---> ", giftee)
