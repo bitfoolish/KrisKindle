@@ -28,9 +28,6 @@ while participant != "end": # take in User's name + email
 
 #print(names) 
 
-msg = EmailMessage()
-msg['Subject'] = "Your Kris Kindle !!"
-msg['From'] = senderEmail
 
 ogGifter = list(names.keys())# E.g. ['lisa', 'ann', 'mary'] => names of people involved in secret santa
 ogGiftee = ogGifter.copy()  # ['lisa', 'ann', 'mary']
@@ -62,17 +59,22 @@ while(x < gifts):
         print(names)
         print(names[buy], names[rcvr])
 
-for gifter, giftee in pairs.items():
-    msg.set_content(f"You {gifter} got {giftee} !!")
-    #print(gifter, " buys for ---> ", giftee)
-    rcvrEmail = names[gifter]
-    print("send this to " , rcvrEmail)
 
-    context = ssl.create_default_context()
+msg = EmailMessage()
+msg['Subject'] = "Your Kris Kindle !!"
+msg['From'] = senderEmail
+
+context = ssl.create_default_context()
 ### RESHUFFLE this?
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server: # 465 is the port number for SSL
-        server.login(senderEmail, senderPassword)
+with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server: # 465 is the port number for SSL
+    server.login(senderEmail, senderPassword)
+    
+    for gifter, giftee in pairs.items():
+        rcvrEmail = names[gifter]
         msg['To'] = rcvrEmail
+        msg.set_content(f"You {gifter} got {giftee} !!")
+        #print(gifter, " buys for ---> ", giftee)
+#        print("send this to " , rcvrEmail)       
         server.send_message(msg) 
         del msg['To']
         
