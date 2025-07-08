@@ -19,15 +19,17 @@ names = {}
 participant = input()
 while participant != "end": # take in User's name + email
     TOKENS = participant.split()
-    if (names.get(TOKENS[0].capitalize()) == None) : # if that name doesnt already exist, puts each inputted name in standardised form: joHn => John
-        names[TOKENS[0].capitalize()] = TOKENS[1]
+    numTokens = len(TOKENS) 
+    jointName = " ".join(TOKENS[:numTokens-1])
+    if (names.get(jointName.capitalize()) == None) : # if that name doesnt already exist, puts each inputted name in standardised form: joHn => John
+        names[jointName.capitalize()] = TOKENS[numTokens-1]
+        #print(names)
     else: # name already added to the pot
-        print(f"That name {TOKENS[0].capitalize()} is already entered! Please enter a unique name")
+        print(f"That name {jointName.capitalize()} is already entered! Please enter a unique name")
     
     participant = input()
 
 #print(names) 
-
 
 ogGifter = list(names.keys())# E.g. ['lisa', 'ann', 'mary'] => names of people involved in secret santa
 ogGiftee = ogGifter.copy()  # ['lisa', 'ann', 'mary']
@@ -65,7 +67,6 @@ msg['Subject'] = "Your Kris Kindle !!"
 msg['From'] = senderEmail
 
 context = ssl.create_default_context()
-### RESHUFFLE this?
 with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server: # 465 is the port number for SSL
     server.login(senderEmail, senderPassword)
     
@@ -73,8 +74,6 @@ with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server: # 465 i
         rcvrEmail = names[gifter]
         msg['To'] = rcvrEmail
         msg.set_content(f"You {gifter} got {giftee} !!")
-        #print(gifter, " buys for ---> ", giftee)
-#        print("send this to " , rcvrEmail)       
         server.send_message(msg) 
         del msg['To']
-        
+            
